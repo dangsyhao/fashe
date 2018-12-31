@@ -51,7 +51,13 @@
         minimumResultsForSearch: 20,
         dropdownParent: $('#dropDownSelect1')
     });
+
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect2')
+    });
 </script>
+
 <!--===============================================================================================-->
 <script type="text/javascript" src="<?= ASSETS_PATH;?>vendor/slick/slick.min.js"></script>
 
@@ -81,6 +87,36 @@
 </script>
 
 <!--===============================================================================================-->
+<script type="text/javascript" src="<?= ASSETS_PATH;?>vendor/noui/nouislider.min.js"></script>
+<script type="text/javascript">
+    /*[ No ui ]
+    ===========================================================*/
+    var filterBar = document.getElementById('filter-bar');
+
+    noUiSlider.create(filterBar, {
+        start: [ 50, 200 ],
+        connect: true,
+        range: {
+            'min': 50,
+            'max': 200
+        }
+    });
+
+    var skipValues = [
+        document.getElementById('value-lower'),
+        document.getElementById('value-upper')
+    ];
+
+    filterBar.noUiSlider.on('update', function( values, handle ) {
+        skipValues[handle].innerHTML = Math.round(values[handle]) ;
+    });
+</script>
+
+<!--===============================================================================================-->
+
+<!--===============================================================================================-->
+
+
 <script src="<?= ASSETS_PATH;?>js/main.js"></script>
 
 

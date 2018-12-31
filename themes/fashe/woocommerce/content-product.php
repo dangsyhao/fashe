@@ -25,4 +25,18 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 }
 
 ?>
-    <?php do_action( 'fashe_product_loop_home_items' );?>
+    <?php
+
+if(is_front_page() || is_home()){
+
+    do_action( 'fashe_product_loop_home');
+
+}
+
+if(is_shop()){
+
+    do_action( 'fashe_product_loop_shop' );
+
+}
+
+?>

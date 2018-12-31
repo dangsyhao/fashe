@@ -14,12 +14,11 @@
  * @package WooCommerce/Templates
  * @version 3.4.0
  */
-echo "This is Archive-product2";
 
 defined( 'ABSPATH' ) || exit;
 
 get_header( 'shop' );
-
+echo 'archive product !';
 /**
  * Hook: woocommerce_before_main_content.
  *

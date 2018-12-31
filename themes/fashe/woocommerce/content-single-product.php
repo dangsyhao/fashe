@@ -1,4 +1,6 @@
-<?php
+
+<?php die('This is single Product !');
+
 /**
  * The template for displaying product content in the single-product.php template
  *
@@ -14,7 +16,6 @@
  * @package WooCommerce/Templates
  * @version 3.4.0
  */
-echo "This is Content-single-product";
 
 defined( 'ABSPATH' ) || exit;
 

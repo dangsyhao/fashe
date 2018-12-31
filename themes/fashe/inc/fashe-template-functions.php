@@ -1,10 +1,46 @@
 
 <?php
 
+function fashe_product_loop_shop(){
+    ?>
+    <?php global $product;?>
+<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+    <div class="block2">
+        <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+            <img src="<?= get_the_post_thumbnail_url($product->term_ID)?>" alt="IMG-PRODUCT" height="360">
+            <div class="block2-overlay trans-0-4">
+                <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4" tabindex="0">
+                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                </a>
+                <div class="block2-btn-addcart w-size1 trans-0-4">
+                    <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" tabindex="0">
+                        <?php do_action('fashe_product_loop_add_to_cart');?>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="block2-txt p-t-20">
+            <a href="<?php the_permalink($product->term_ID)?>" class="block2-name dis-block s-text3 p-b-5" tabindex="0">
+                <?= get_the_title();?>
+            </a>
+            <?= $product->regular_price ?'<span class="block2-oldprice m-text7 p-r-5">$'.$product->regular_price.'</span>':''; ?>
+            <?= $product->sale_price ?'<span class="block2-newprice m-text8 p-r-5">$'.$product->sale_price.'</span>':''; ?>
+        </div>
+    </div>
+</div>
+
+    <?php
+}
+
+/*
+ *
+ */
+
 function fashe_product_loop_home(){
     ?>
     <?php global $product;?>
-    <div class="item-slick2 p-l-15 p-r-15">
+    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
         <div class="block2">
             <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
                 <img src="<?= get_the_post_thumbnail_url($product->term_ID)?>" alt="IMG-PRODUCT" height="360">
