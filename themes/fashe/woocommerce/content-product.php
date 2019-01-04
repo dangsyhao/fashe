@@ -33,8 +33,7 @@ if(is_front_page() || is_home()){
 
 }
 
-if(is_shop()){
-
+if(is_page('shop' )){
     do_action( 'fashe_product_loop_shop' );
 
 }
