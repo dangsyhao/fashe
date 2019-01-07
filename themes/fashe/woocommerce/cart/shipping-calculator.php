@@ -21,13 +21,9 @@ do_action( 'woocommerce_before_shipping_calculator' ); ?>
 
 <form class="woocommerce-shipping-calculator" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 
-	<?php printf( '<a href="#" class="shipping-calculator-button">%s</a>', esc_html( ! empty( $button_text ) ? $button_text : __( 'Calculate shipping', 'woocommerce' ) ) ); ?>
-
-	<section class="shipping-calculator-form" style="display:none;">
-
 		<?php if ( apply_filters( 'woocommerce_shipping_calculator_enable_country', true ) ) : ?>
-			<p class="form-row form-row-wide" id="calc_shipping_country_field">
-				<select name="calc_shipping_country" id="calc_shipping_country" class="country_to_state country_select" rel="calc_shipping_state">
+        <div class="rs2-select2 rs3-select2 rs4-select2 bo4 of-hidden w-size21 m-t-8 m-b-12">
+				<select name="calc_shipping_country"  class="selection-2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
 					<option value=""><?php esc_html_e( 'Select a country&hellip;', 'woocommerce' ); ?></option>
 					<?php
 					foreach ( WC()->countries->get_shipping_countries() as $key => $value ) {
@@ -35,7 +31,7 @@ do_action( 'woocommerce_before_shipping_calculator' ); ?>
 					}
 					?>
 				</select>
-			</p>
+        </div>
 		<?php endif; ?>
 
 		<?php if ( apply_filters( 'woocommerce_shipping_calculator_enable_state', true ) ) : ?>
@@ -85,7 +81,7 @@ do_action( 'woocommerce_before_shipping_calculator' ); ?>
 
 		<p><button type="submit" name="calc_shipping" value="1" class="button"><?php esc_html_e( 'Update', 'woocommerce' ); ?></button></p>
 		<?php wp_nonce_field( 'woocommerce-shipping-calculator', 'woocommerce-shipping-calculator-nonce' ); ?>
-	</section>
+
 </form>
 
 <?php do_action( 'woocommerce_after_shipping_calculator' ); ?>

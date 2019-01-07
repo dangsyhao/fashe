@@ -16,8 +16,7 @@ if(is_page('shop' )){
     //
     remove_shortcode('[product]');
     //
-    get_template_part('template-parts/page/page/page-title');
-    get_template_part('template-parts/page/page/shop');
+    get_template_part('template-parts/page/page/page-default');
 
 
 

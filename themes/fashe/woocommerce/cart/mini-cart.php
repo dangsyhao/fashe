@@ -24,10 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <?php if ( ! WC()->cart->is_empty() ) : ?>
-
-	<ul class="woocommerce-mini-cart cart_list product_list_widget <?php echo esc_attr( $args['list_class'] ); ?>">
+<div class="header-cart header-dropdown">
+	<ul class="header-cart-wrapitem" >
 		<?php
-			do_action( 'woocommerce_before_mini_cart_contents' );
 
 			foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 				$_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
@@ -39,45 +38,45 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 					$product_price     = apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
 					$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
 					?>
-					<li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?>">
-						<?php
-						echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
-							'<a href="%s" class="remove remove_from_cart_button" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">&times;</a>',
-							esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
-							__( 'Remove this item', 'woocommerce' ),
-							esc_attr( $product_id ),
-							esc_attr( $cart_item_key ),
-							esc_attr( $_product->get_sku() )
-						), $cart_item_key );
-						?>
-						<?php if ( empty( $product_permalink ) ) : ?>
-							<?php echo $thumbnail . $product_name; ?>
-						<?php else : ?>
-							<a href="<?php echo esc_url( $product_permalink ); ?>">
-								<?php echo $thumbnail . $product_name; ?>
-							</a>
-						<?php endif; ?>
+					<li class="header-cart-item">
+                        <div  class="header-cart-item-img">
+                            <?=$thumbnail; ?>
+                        </div>
+
+                        <div class="header-cart-item-txt">
+                            <a href="<?= $product_permalink;?>" class="header-cart-item-name">
+                                 <?= $product_name;?>
+                            </a>
+
+                            <?php echo apply_filters( 'woocommerce_widget_cart_item_quantity',
+                                '<span class="header-cart-item-info">' . sprintf( '%s &times; %s', $cart_item['quantity'], $product_price ) . '</span>',
+                                $cart_item, $cart_item_key )
+                            ; ?>
+                        </div>
+
 						<?php echo wc_get_formatted_cart_item_data( $cart_item ); ?>
-						<?php echo apply_filters( 'woocommerce_widget_cart_item_quantity', '<span class="quantity">' . sprintf( '%s &times; %s', $cart_item['quantity'], $product_price ) . '</span>', $cart_item, $cart_item_key ); ?>
 					</li>
 					<?php
 				}
 			}
 
-			do_action( 'woocommerce_mini_cart_contents' );
 		?>
 	</ul>
 
-	<p class="woocommerce-mini-cart__total total"><strong><?php _e( 'Subtotal', 'woocommerce' ); ?>:</strong> <?php echo WC()->cart->get_cart_subtotal(); ?></p>
+	<div class="header-cart-total"><?php _e( 'Total', 'woocommerce' ); ?>:<?php echo WC()->cart->get_cart_subtotal(); ?></div>
 
-	<?php do_action( 'woocommerce_widget_shopping_cart_before_buttons' ); ?>
+    <div class="header-cart-buttons">
+        <div class="header-cart-wrapbtn">
+            <!-- Button -->
+            <a href="<?= esc_url( wc_get_cart_url() )?>" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4"><?= esc_html__( 'View cart', 'woocommerce' )?></a>
+        </div>
 
-	<p class="woocommerce-mini-cart__buttons buttons"><?php do_action( 'woocommerce_widget_shopping_cart_buttons' ); ?></p>
+        <div class="header-cart-wrapbtn">
+            <!-- Button -->
+            <a href="<?=esc_url( wc_get_checkout_url() )?>" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4"><?= esc_html__( 'Checkout', 'woocommerce' )?></a>
+        </div>
+    </div>
 
-<?php else : ?>
-
-	<p class="woocommerce-mini-cart__empty-message"><?php _e( 'No products in the cart.', 'woocommerce' ); ?></p>
-
-<?php endif; ?>
-
-<?php do_action( 'woocommerce_after_mini_cart' ); ?>
+    <?php endif; ?>
+<!--End-->
+</div>

@@ -230,17 +230,12 @@ function fashe_woocommerce_orderby(){
         'catalog_orderby_options' => $catalog_orderby_options,
         'orderby'                 => $orderby,
         'show_default_orderby'    => $show_default_orderby,
-    ) );
-
-    //--Count result--//
-
-    $args = array(
         'total'    => wc_get_loop_prop( 'total' ),
         'per_page' => wc_get_loop_prop( 'per_page' ),
         'current'  => wc_get_loop_prop( 'current_page' ),
-    );
 
-    wc_get_template( 'woocommerce/loop/result-count.php', $args );
+    ) );
+
 
     ?>
 

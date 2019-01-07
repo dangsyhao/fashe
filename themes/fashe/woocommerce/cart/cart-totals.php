@@ -21,24 +21,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div class="cart_totals <?php echo ( WC()->customer->has_calculated_shipping() ) ? 'calculated_shipping' : ''; ?>">
 
 	<?php do_action( 'woocommerce_before_cart_totals' ); ?>
 
-	<h2><?php _e( 'Cart totals', 'woocommerce' ); ?></h2>
+	<h5><?php _e( 'Cart totals', 'woocommerce' ); ?></h5>
 
-	<table cellspacing="0" class="shop_table shop_table_responsive">
-
-		<tr class="cart-subtotal">
-			<th><?php _e( 'Subtotal', 'woocommerce' ); ?></th>
-			<td data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>"><?php wc_cart_totals_subtotal_html(); ?></td>
-		</tr>
+        <div class="flex-w flex-sb-m p-b-12">
+            <span class="s-text18 w-size19 w-full-sm"><?php _e( 'Subtotal', 'woocommerce' ); ?></span>
+            <span class="m-text21 w-size20 w-full-sm"><?php wc_cart_totals_subtotal_html(); ?></span>
+        </div>
 
 		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
-			<tr class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-				<th><?php wc_cart_totals_coupon_label( $coupon ); ?></th>
-				<td data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>"><?php wc_cart_totals_coupon_html( $coupon ); ?></td>
-			</tr>
+        <div class="flex-w flex-sb-m p-b-12">
+            <span class="s-text18 w-size19 w-full-sm"><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
+            <span class="m-text21 w-size20 w-full-sm"><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
+		</div>
 		<?php endforeach; ?>
 
 		<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
@@ -95,7 +92,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php do_action( 'woocommerce_cart_totals_after_order_total' ); ?>
 
-	</table>
 
 	<div class="wc-proceed-to-checkout">
 		<?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
@@ -103,4 +99,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php do_action( 'woocommerce_after_cart_totals' ); ?>
 
-</div>

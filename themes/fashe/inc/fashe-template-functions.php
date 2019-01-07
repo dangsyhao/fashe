@@ -176,3 +176,13 @@ function fashe_news_posts(){
 
 }
 add_filter('fashe_news_posts','fashe_news_posts');
+
+/*
+ * Main Banner Function ... .
+ */
+
+function fashe_mini_cart_header(){
+
+    wc_get_template( 'woocommerce/cart/mini-cart.php');
+}
+add_action('fashe_mini_cart_header','fashe_mini_cart_header');
