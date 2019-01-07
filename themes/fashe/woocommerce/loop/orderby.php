@@ -22,35 +22,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-
     <div class="flex-sb-m flex-w p-b-35">
         <div class="flex-w">
-            <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                <form  method="get">
-                <select class="selection-2 select2-hidden-accessible" name="orderby" tabindex="-1" aria-hidden="true">
-                    <?php foreach ( $catalog_orderby_options as $id => $name ) : ?>
-                        <option value="<?php echo esc_attr( $id ); ?>" <?php selected( $orderby, $id ); ?>><?php echo esc_html( $name ); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                </form>
-
-            </div>
-
-            <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                <form method="get">
-                <select class="orderby selection-2 select2-hidden-accessible" name="sorting" tabindex="-1" aria-hidden="true">
-                    <option>Price</option>
-                    <option value="0">$0.00 - $50.00</option>
-                    <option value="50">$50.00 - $100.00</option>
-                    <option value="100">$100.00 - $150.00</option>
-                    <option value="150">$150.00 - $200.00</option>
-                    <option value="200">$200.00+</option>
-
-                </select>
-                </form>
-            </div>
+            <!-- Price -->
+            <form  class="woocommerce-ordering" method="get" >
+                <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+                    <select class="selection-2 select2-hidden-accessible orderby" name="orderby" tabindex="-1" aria-hidden="true">
+                        <?php foreach ( $catalog_orderby_options as $id => $name ) : ?>
+                            <option value="<?php echo esc_attr( $id ); ?>" <?php selected( $orderby, $id ); ?>><?php echo esc_html( $name ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </form>
+            <!-- Price -->
+            <form  class="woocommerce-ordering" method="get" >
+                <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+                    <select class="selection-2 select2-hidden-accessible orderby" name="price" tabindex="-1" aria-hidden="true">
+                        <option >Price</option>
+                        <option value='0'>$0.00 - $50.00</option>
+                        <option value='50'>$50.00 - $100.00</option>
+                        <option value='100'>$100.00 - $150.00</option>
+                        <option value='150'>$150.00 - $200.00</option>
+                        <option value='200'>$200.00+</option>
+                    </select>
+                </div>
+            </form>
 
         </div>
+
+        <!-- Show results -->
         <span class="s-text8 p-t-5 p-b-5">
                     <?php
                     if ( $total <= $per_page || -1 === $per_page ) {
@@ -64,8 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     }
                     ?>
         </span>
-
         <input type="hidden" name="paged" value="1" />
-        <?php wc_query_string_form_fields( null, array( 'orderby', 'submit', 'paged', 'product-page' ) ); ?>
+        <?php wc_query_string_form_fields( null, array('orderby', 'submit', 'paged', 'product-page' ) ); ?>
     </div>
-</form>
+

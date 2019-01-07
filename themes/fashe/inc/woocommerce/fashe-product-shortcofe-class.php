@@ -149,8 +149,6 @@ class fashe_product_shortcode_class
                 'page' => 1,         // Page for pagination.
                 'paginate' => false,     // Should results be paginated.
                 'cache' => true,      // Should shortcode output be cached.
-                'meta_key'  =>'',
-                'meta_value'    =>''
             ), $attributes, $this->type
         );
 
@@ -207,9 +205,6 @@ class fashe_product_shortcode_class
         $order = !empty($orderby_value[1]) ? $orderby_value[1] : strtoupper($this->attributes['order']);
         $query_args['orderby'] = $orderby;
         $query_args['order'] = $order;
-        //Custom by Hao
-        $query_args['meta_key'] = $this->attributes['meta_key'];
-        $query_args['meta_value'] = $this->attributes['meta_value'];
 
         //
         if (wc_string_to_bool($this->attributes['paginate'])) {
@@ -240,6 +235,8 @@ class fashe_product_shortcode_class
 
         // SKUs.
         $this->set_skus_query_args($query_args);
+        // PRICE./Custom by Hao
+        $this->set_price_query_args($query_args);
 
         // IDs.
         $this->set_ids_query_args($query_args);
@@ -283,6 +280,26 @@ class fashe_product_shortcode_class
             );
         }
     }
+
+     /**
+     * Set Price query args./Custom by Hao
+     *
+     * @since 3.2.0
+     * @param array $query_args Query sargs.
+     */
+    protected function set_price_query_args(&$query_args)
+    {
+        $price=isset($_GET['price']) ?intval(wc_clean(wp_unslash($_GET['price']))):false;
+        if (isset($price)) {
+            $query_args['meta_query'][] = array(
+                                            'key' => '_price',
+                                            'value' => array($price,$price+50),
+                                            'compare' => 'BETWEEN',
+                                            'type'  =>'NUMERIC'                   
+            );
+        }
+    }
+
 
     /**
      * Set ids query args.
@@ -667,10 +684,8 @@ class fashe_product_shortcode_class
 
             do_action("woocommerce_shortcode_before_{$this->type}_loop", $this->attributes);
 
-
             ob_start();
             woocommerce_product_loop_start();
-
             if (wc_get_loop_prop('total')) {
                 foreach ($products->ids as $product_id) {
                     $GLOBALS['post'] = get_post($product_id); // WPCS: override ok.
@@ -704,15 +719,12 @@ class fashe_product_shortcode_class
 
         if(is_page('shop') || is_shop()){
 
-            if (wc_string_to_bool($this->attributes['paginate'])) {
-                do_action('fashe_woocommerce_orderby');
-            }
+            do_action('fashe_woocommerce_orderby');
+            
             echo "<div class='row'>".$results."</div>";
 
-            if (wc_string_to_bool($this->attributes['paginate'])) {
-
-                do_action( 'fashe_woocommerce_pagination' );
-            }
+            do_action( 'fashe_woocommerce_pagination' );
+            
         }
         else{
 

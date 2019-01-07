@@ -140,10 +140,8 @@ function fashe_woocommerce_short_code_shop($atts) {
 
     $atts = shortcode_atts( array(
         'per_page'     => 6,
-        'orderby'      => 'date',
-        'order'        => 'DESC',
         'paginate'      =>true,
-    ), $atts, 'product' );
+    ), $atts);
 
     $shortcode = new fashe_product_shortcode_class( $atts);
 
@@ -233,9 +231,7 @@ function fashe_woocommerce_orderby(){
         'total'    => wc_get_loop_prop( 'total' ),
         'per_page' => wc_get_loop_prop( 'per_page' ),
         'current'  => wc_get_loop_prop( 'current_page' ),
-
     ) );
-
 
     ?>
 
