@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php do_action( 'woocommerce_before_cart_totals' ); ?>
 
-	<h5><?php _e( 'Cart totals', 'woocommerce' ); ?></h5>
+	<h5 class="m-text20 p-b-24"><?php _e( 'Cart totals', 'woocommerce' ); ?></h5>
 
         <div class="flex-w flex-sb-m p-b-12">
             <span class="s-text18 w-size19 w-full-sm"><?php _e( 'Subtotal', 'woocommerce' ); ?></span>
@@ -85,17 +85,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php do_action( 'woocommerce_cart_totals_before_order_total' ); ?>
 
-		<tr class="order-total">
-			<th><?php _e( 'Total', 'woocommerce' ); ?></th>
-			<td data-title="<?php esc_attr_e( 'Total', 'woocommerce' ); ?>"><?php wc_cart_totals_order_total_html(); ?></td>
-		</tr>
+        <div class="flex-w flex-sb-m p-t-26 p-b-30">
+            <span class="m-text22 w-size19 w-full-sm"><?php _e( 'Total', 'woocommerce' ); ?></span>
+            <span class="m-text21 w-size20 w-full-sm"><?php wc_cart_totals_order_total_html(); ?></span>
+        </div>
 
 		<?php do_action( 'woocommerce_cart_totals_after_order_total' ); ?>
 
 
-	<div class="wc-proceed-to-checkout">
-		<?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
-	</div>
+        <div class="size15 trans-0-4">
+            <a href="<?php echo esc_url( wc_get_checkout_url() );?>" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" role="button">
+                <?php esc_html_e( 'Proceed to checkout', 'woocommerce' ); ?>
+            </a>
+        </div>
 
 	<?php do_action( 'woocommerce_after_cart_totals' ); ?>
 
