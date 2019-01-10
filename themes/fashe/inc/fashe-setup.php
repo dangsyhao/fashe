@@ -37,6 +37,10 @@ function fashe_setup() {
     add_image_size( 'fashe-post-thumbnail-single-post',820,481,true );
     //
     add_image_size( 'fashe-product-cart-thumbnail',90,120,true );
+    //
+    add_image_size( 'fashe-single-product-thumbnail',501,668,false );
+
+
 
 
     // This theme uses wp_nav_menu() in two locations.

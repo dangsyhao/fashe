@@ -238,3 +238,222 @@ function fashe_woocommerce_orderby(){
 <?php
 
 }
+
+/*
+ *
+ */
+
+
+function fashe_add_to_cart_single_product()
+{
+        wc_get_template('template-parts/single_product/add-to-cart/simple.php');
+}
+
+add_action('fashe_add_to_cart_single_product','fashe_add_to_cart_single_product');
+
+/*
+*
+*/
+
+
+function fashe_meta_single_product()
+{
+    wc_get_template('template-parts/single_product/_meta.php');
+}
+
+add_action('fashe_meta_single_product','fashe_meta_single_product');
+
+/*
+*
+*/
+
+
+function fashe_display_product_attributes( $product ) {
+    wc_get_template( 'template-parts/single_product/_product-attributes.php', array(
+        'product'            => $product,
+        'attributes'         => array_filter( $product->get_attributes(), 'wc_attributes_array_filter_visible' ),
+        'display_dimensions' => apply_filters( 'wc_product_enable_dimensions_display', $product->has_weight() || $product->has_dimensions() ),
+    ) );
+}
+
+add_action('fashe_display_product_attributes','fashe_display_product_attributes');
+
+/*
+ *
+ */
+
+
+function fashe_single_product_left_section()
+{
+        global $product;
+        $attachment_ids = $product->get_gallery_image_ids();
+        $attachment_ids[] = $product->get_image_id();
+
+        if(!empty($attachment_ids)){
+
+            wc_get_template('template-parts/single_product/single_product_left.php', array('attachment_ids' => $attachment_ids));
+
+        }
+}
+
+add_action('fashe_single_product_left_section','fashe_single_product_left_section');
+
+/*
+ *
+ */
+
+function fashe_single_product_right_section()
+{
+    global $product;
+    $result=array(
+            'price'=>$product->price,
+    );
+
+    wc_get_template('template-parts/single_product/single_product_right.php',$result);
+}
+
+add_action('fashe_single_product_right_section','fashe_single_product_right_section');
+
+
+/**
+ * Trigger the single product add to cart action.
+ */
+function fashe_template_single_add_to_cart() {
+    global $product;
+    do_action( 'fashe_' . $product->get_type() . '_add_to_cart' );
+}
+
+/**
+ * Output the simple product add to cart area.
+ */
+function fashe_simple_add_to_cart() {
+    wc_get_template( 'template-parts/single_product/add-to-cart/variable.php' );
+}
+
+/**
+ * Output the grouped product add to cart area.
+ */
+function fashe_grouped_add_to_cart() {
+    global $product;
+
+    $products = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
+
+    if ( $products ) {
+        wc_get_template( 'template-parts/single_product/add-to-cart/grouped.php', array(
+            'grouped_product'    => $product,
+            'grouped_products'   => $products,
+            'quantites_required' => false,
+        ) );
+    }
+}
+
+/**
+ * Output the variable product add to cart area.
+ */
+function fashe_variable_add_to_cart() {
+    global $product;
+
+    // Enqueue variation scripts.
+    wp_enqueue_script( 'wc-add-to-cart-variation' );
+
+    // Get Available variations?
+    $get_variations = count( $product->get_children() ) <= apply_filters( 'woocommerce_ajax_variation_threshold', 30, $product );
+
+    // Load the template.
+    wc_get_template( 'template-parts/single_product/add-to-cart/variable.php', array(
+        'available_variations' => $get_variations ? $product->get_available_variations() : false,
+        'attributes'           => $product->get_variation_attributes(),
+        'selected_attributes'  => $product->get_default_attributes(),
+    ) );
+}
+
+/**
+ * Output the external product add to cart area.
+ */
+function fashe_external_add_to_cart() {
+    global $product;
+
+    if ( ! $product->add_to_cart_url() ) {
+        return;
+    }
+
+    wc_get_template( 'template-parts/single_product/add-to-cart/external.php', array(
+        'product_url' => $product->add_to_cart_url(),
+        'button_text' => $product->single_add_to_cart_text(),
+    ) );
+}
+
+/**
+ * Output placeholders for the single variation.
+ */
+function fashe_single_variation() {
+    echo '<div class="woocommerce-variation single_variation"></div>';
+}
+
+/**
+ * Output the add to cart button for variations.
+ */
+function fashe_single_variation_add_to_cart_button() {
+    wc_get_template( 'template-parts/single_product/variation-add-to-cart-button.php' );
+}
+
+function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
+    $args = wp_parse_args( apply_filters( 'woocommerce_dropdown_variation_attribute_options_args', $args ), array(
+        'options'          => false,
+        'attribute'        => false,
+        'product'          => false,
+        'selected'         => false,
+        'name'             => '',
+        'id'               => '',
+        'class'            => '',
+        'show_option_none' => __( 'Choose an option', 'woocommerce' ),
+    ) );
+
+    // Get selected value.
+    if ( false === $args['selected'] && $args['attribute'] && $args['product'] instanceof WC_Product ) {
+        $selected_key     = 'attribute_' . sanitize_title( $args['attribute'] );
+        $args['selected'] = isset( $_REQUEST[ $selected_key ] ) ? wc_clean( wp_unslash( $_REQUEST[ $selected_key ] ) ) : $args['product']->get_variation_default_attribute( $args['attribute'] ); // WPCS: input var ok, CSRF ok, sanitization ok.
+    }
+
+    $options               = $args['options'];
+    $product               = $args['product'];
+    $attribute             = $args['attribute'];
+    $name                  = $args['name'] ? $args['name'] : 'attribute_' . sanitize_title( $attribute );
+    $id                    = $args['id'] ? $args['id'] : sanitize_title( $attribute );
+    $class                 = $args['class'];
+    $show_option_none      = (bool) $args['show_option_none'];
+    $show_option_none_text = $args['show_option_none'] ? $args['show_option_none'] : __( 'Choose an option', 'woocommerce' ); // We'll do our best to hide the placeholder, but we'll need to show something when resetting options.
+
+    if ( empty( $options ) && ! empty( $product ) && ! empty( $attribute ) ) {
+        $attributes = $product->get_variation_attributes();
+        $options    = $attributes[ $attribute ];
+    }
+
+    $html  = '<select id="' . esc_attr( $id ) . '" class="selection-2 select2-hidden-accessible" name="' . esc_attr( $name ) . '" data-attribute_name="attribute_' . esc_attr( sanitize_title( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '" tabindex="-1" aria-hidden="true">';
+    $html .= '<option value="">' . esc_html( $show_option_none_text ) . '</option>';
+
+    if ( ! empty( $options ) ) {
+        if ( $product && taxonomy_exists( $attribute ) ) {
+            // Get terms if this is a taxonomy - ordered. We need the names too.
+            $terms = wc_get_product_terms( $product->get_id(), $attribute, array(
+                'fields' => 'all',
+            ) );
+
+            foreach ( $terms as $term ) {
+                if ( in_array( $term->slug, $options, true ) ) {
+                    $html .= '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args['selected'] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
+                }
+            }
+        } else {
+            foreach ( $options as $option ) {
+                // This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
+                $selected = sanitize_title( $args['selected'] ) === $args['selected'] ? selected( $args['selected'], sanitize_title( $option ), false ) : selected( $args['selected'], $option, false );
+                $html    .= '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
+            }
+        }
+    }
+
+    $html .= '</select>';
+
+    echo apply_filters( 'woocommerce_dropdown_variation_attribute_options_html', $html, $args ); // WPCS: XSS ok.
+}

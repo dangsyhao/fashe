@@ -17,9 +17,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
+?>
+
+<div class="flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10">
+
+<?php
+
 if ( $max_value && $min_value === $max_value ) {
 	?>
-	<div class="quantity hidden">
+
+    <div class="quantity hidden">
 		<input type="hidden" id="<?php echo esc_attr( $input_id ); ?>" class="qty" name="<?php echo esc_attr( $input_name ); ?>" value="<?php echo esc_attr( $min_value ); ?>" />
 	</div>
 	<?php
@@ -46,7 +53,7 @@ if ( $max_value && $min_value === $max_value ) {
             <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
         </button>
     </div>
-	</div>
+</div>
 
-    <?php
+<?php
 }

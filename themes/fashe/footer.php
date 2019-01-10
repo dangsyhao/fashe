@@ -32,8 +32,6 @@
 <div id="dropDownSelect1"></div>
 <div id="dropDownSelect2"></div>
 
-
-
 <!-- Modal Video 01-->
 <?php get_template_part('template-parts/footer/modal_video')?>
 
