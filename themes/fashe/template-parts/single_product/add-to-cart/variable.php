@@ -23,13 +23,12 @@ $attribute_keys = array_keys( $attributes );
 
 do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
-<form  action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint( $product->get_id() ); ?>" data-product_variations="<?php echo htmlspecialchars( wp_json_encode( $available_variations ) ); // WPCS: XSS ok. ?>">
+<form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint( $product->get_id() ); ?>" data-product_variations="<?php echo htmlspecialchars( wp_json_encode( $available_variations ) ); // WPCS: XSS ok. ?>">
 	<?php do_action( 'woocommerce_before_variations_form' ); ?>
 
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock"><?php esc_html_e( 'This product is currently out of stock and unavailable.', 'woocommerce' ); ?></p>
 	<?php else : ?>
-
 
 	    <?php foreach ( $attributes as $attribute_name => $options ) : ?>
             <div class="flex-m flex-w p-b-10">
@@ -52,8 +51,8 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
         <?php endforeach; ?>
 
-
-		<div class="single_variation_wrap">
+    <div class="flex-r-m flex-w p-t-10">
+        <div class="w-size16 flex-m flex-w">
 			<?php
 				/**
 				 * Hook: woocommerce_before_single_variation.
@@ -67,14 +66,15 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 				 * @hooked woocommerce_single_variation - 10 Empty div for variation data.
 				 * @hooked woocommerce_single_variation_add_to_cart_button - 20 Qty and cart button.
 				 */
-				do_action( 'woocommerce_single_variation' );
+				do_action( 'fashe_single_variation' );
 
 				/**
 				 * Hook: woocommerce_after_single_variation.
 				 */
 				do_action( 'woocommerce_after_single_variation' );
 			?>
-		</div>
+        </div>
+    </div>
 	<?php endif; ?>
 
 	<?php do_action( 'woocommerce_after_variations_form' ); ?>

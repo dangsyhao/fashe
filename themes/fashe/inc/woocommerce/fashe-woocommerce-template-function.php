@@ -5,12 +5,12 @@
  */
 function feshe_recent_product_loop_home( $atts ){
     $atts = array_merge( array(
-    'limit'        => 12,
-    'columns'      => 4,
-    'orderby'      => 'date',
-    'order'        => 'DESC',
-    'category'     => '',
-    'cat_operator' => 'IN',
+        'limit'        => 12,
+        'columns'      => 4,
+        'orderby'      => 'date',
+        'order'        => 'DESC',
+        'category'     => '',
+        'cat_operator' => 'IN',
     ), (array) $atts );
 
     $shortcode = new fashe_product_shortcode_class( $atts, 'recent_products' );
@@ -105,13 +105,13 @@ function fashe_woocommerce_subcategory_thumbnail( $category ) {
 
     $thumbnail=get_field('category_display_thumbnail','product_cat_'.$term_id);
 
-        if($thumbnail=='short_thumbnail')
-        {
-            $thumbnail_display='fashe-loop-category-short-thumbnail';
-        }else{
+    if($thumbnail=='short_thumbnail')
+    {
+        $thumbnail_display='fashe-loop-category-short-thumbnail';
+    }else{
 
-            $thumbnail_display='fashe-loop-category-long-thumbnail';
-        }
+        $thumbnail_display='fashe-loop-category-long-thumbnail';
+    }
 
     $small_thumbnail_size = apply_filters( 'subcategory_archive_thumbnail_size',$thumbnail_display);
     $thumbnail_id         = get_woocommerce_term_meta( $category->term_id, 'thumbnail_id', true );
@@ -161,26 +161,26 @@ function fashe_woocommerce_pagination(){
         return;
     }
     ?>
-        <?php
-         paginate_links( apply_filters( 'woocommerce_pagination_args', array( // WPCS: XSS ok.
-            'base'         => $base,
-            'format'       => $format,
-            'add_args'     => false,
-            'current'      => $current,
-            'total'        => $total,
-        ) ) );
-        ?>
+    <?php
+    paginate_links( apply_filters( 'woocommerce_pagination_args', array( // WPCS: XSS ok.
+        'base'         => $base,
+        'format'       => $format,
+        'add_args'     => false,
+        'current'      => $current,
+        'total'        => $total,
+    ) ) );
+    ?>
 
-        <?php ob_start();?>
-        <div class="pagination flex-m flex-w p-t-26">
-            <?php for($i=1;$i<=$total;$i++):?>
+    <?php ob_start();?>
+    <div class="pagination flex-m flex-w p-t-26">
+        <?php for($i=1;$i<=$total;$i++):?>
             <a href="<?= get_page_link().'?product-page='.$i;?>" class="item-pagination flex-c-m trans-0-4 <?= ($current==$i)?'active-pagination':'';?>"><?= $i;?></a>
-            <?php endfor;?>
-        </div>
+        <?php endfor;?>
+    </div>
 
     <?php
-        $result=ob_get_contents();
-        ob_end_clean();
+    $result=ob_get_contents();
+    ob_end_clean();
 
     echo $result;
 }
@@ -235,7 +235,7 @@ function fashe_woocommerce_orderby(){
 
     ?>
 
-<?php
+    <?php
 
 }
 
@@ -246,7 +246,7 @@ function fashe_woocommerce_orderby(){
 
 function fashe_add_to_cart_single_product()
 {
-        wc_get_template('template-parts/single_product/add-to-cart/simple.php');
+    wc_get_template('template-parts/single_product/add-to-cart/simple.php');
 }
 
 add_action('fashe_add_to_cart_single_product','fashe_add_to_cart_single_product');
@@ -285,15 +285,15 @@ add_action('fashe_display_product_attributes','fashe_display_product_attributes'
 
 function fashe_single_product_left_section()
 {
-        global $product;
-        $attachment_ids = $product->get_gallery_image_ids();
-        $attachment_ids[] = $product->get_image_id();
+    global $product;
+    $attachment_ids = $product->get_gallery_image_ids();
+    $attachment_ids[] = $product->get_image_id();
 
-        if(!empty($attachment_ids)){
+    if(!empty($attachment_ids)){
 
-            wc_get_template('template-parts/single_product/single_product_left.php', array('attachment_ids' => $attachment_ids));
+        wc_get_template('template-parts/single_product/single_product_left.php', array('attachment_ids' => $attachment_ids));
 
-        }
+    }
 }
 
 add_action('fashe_single_product_left_section','fashe_single_product_left_section');
@@ -306,7 +306,7 @@ function fashe_single_product_right_section()
 {
     global $product;
     $result=array(
-            'price'=>$product->price,
+        'price'=>$product->price,
     );
 
     wc_get_template('template-parts/single_product/single_product_right.php',$result);
@@ -386,15 +386,17 @@ function fashe_external_add_to_cart() {
 /**
  * Output placeholders for the single variation.
  */
-function fashe_single_variation() {
-    echo '<div class="woocommerce-variation single_variation"></div>';
-}
+
+//function fashe_single_variation() {
+//    echo '<div class="woocommerce-variation single_variation"></div>';
+//}
+
 
 /**
  * Output the add to cart button for variations.
  */
 function fashe_single_variation_add_to_cart_button() {
-    wc_get_template( 'template-parts/single_product/variation-add-to-cart-button.php' );
+    wc_get_template( 'template-parts/single_product/add-to-cart/variation-add-to-cart-button.php' );
 }
 
 function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
@@ -457,3 +459,24 @@ function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
 
     echo apply_filters( 'woocommerce_dropdown_variation_attribute_options_html', $html, $args ); // WPCS: XSS ok.
 }
+
+
+
+
+    /**
+     * Output the product image before the single product summary.
+     */
+    function fashe_show_product_images() {
+        wc_get_template( 'template-parts/single_product/image/product-image.php' );
+    }
+
+    add_action('fashe_show_product_images','fashe_show_product_images');
+
+    /**
+     * Output the product thumbnails.
+     */
+    function fashe_show_product_thumbnails() {
+        wc_get_template( 'template-parts/single_product/image/product-thumbnails.php' );
+    }
+
+    add_action('fashe_show_product_thumbnails','fashe_show_product_images');

@@ -11,6 +11,7 @@
                             <img src="<?= $image_gallery[0];?>" alt="IMG-PRODUCT">
                         </div>
                     </div>
+
                 <?php endforeach;?>
             </div>
         </div>
