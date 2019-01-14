@@ -186,3 +186,39 @@ function fashe_mini_cart_header(){
     wc_get_template( 'woocommerce/cart/mini-cart.php');
 }
 add_action('fashe_mini_cart_header','fashe_mini_cart_header');
+
+/*
+ * Main Banner Function ... .
+ */
+
+function fashe_single_product_left_section()
+{
+    global $product;
+    $attachment_ids = $product->get_gallery_image_ids();
+    $attachment_ids[] = $product->get_image_id();
+
+    if(!empty($attachment_ids)){
+
+        wc_get_template('template-parts/single_product/single_product_left.php', array('attachment_ids' => $attachment_ids));
+
+    }
+}
+
+add_action('fashe_single_product_left_section','fashe_single_product_left_section');
+
+
+/*
+ *
+ */
+
+function fashe_single_product_right_section()
+{
+    global $product;
+    $result=array(
+        'price'=>$product->price,
+    );
+
+    wc_get_template('template-parts/single_product/single_product_right.php',$result);
+}
+
+add_action('fashe_single_product_right_section','fashe_single_product_right_section');

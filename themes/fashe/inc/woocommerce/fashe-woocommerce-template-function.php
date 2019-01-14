@@ -244,31 +244,31 @@ function fashe_woocommerce_orderby(){
  */
 
 
-function fashe_add_to_cart_single_product()
+function fashe_woocommerce_add_to_cart_single_product()
 {
     wc_get_template('template-parts/single_product/add-to-cart/simple.php');
 }
 
-add_action('fashe_add_to_cart_single_product','fashe_add_to_cart_single_product');
+add_action('fashe_woocommerce_add_to_cart_single_product','fashe_woocommerce_add_to_cart_single_product');
 
 /*
 *
 */
 
 
-function fashe_meta_single_product()
+function fashe_woocommerce_meta_single_product()
 {
     wc_get_template('template-parts/single_product/_meta.php');
 }
 
-add_action('fashe_meta_single_product','fashe_meta_single_product');
+add_action('fashe_woocommerce_meta_single_product','fashe_woocommerce_meta_single_product');
 
 /*
 *
 */
 
 
-function fashe_display_product_attributes( $product ) {
+function fashe_woocommerce_display_product_attributes( $product ) {
     wc_get_template( 'template-parts/single_product/_product-attributes.php', array(
         'product'            => $product,
         'attributes'         => array_filter( $product->get_attributes(), 'wc_attributes_array_filter_visible' ),
@@ -276,64 +276,28 @@ function fashe_display_product_attributes( $product ) {
     ) );
 }
 
-add_action('fashe_display_product_attributes','fashe_display_product_attributes');
-
-/*
- *
- */
-
-
-function fashe_single_product_left_section()
-{
-    global $product;
-    $attachment_ids = $product->get_gallery_image_ids();
-    $attachment_ids[] = $product->get_image_id();
-
-    if(!empty($attachment_ids)){
-
-        wc_get_template('template-parts/single_product/single_product_left.php', array('attachment_ids' => $attachment_ids));
-
-    }
-}
-
-add_action('fashe_single_product_left_section','fashe_single_product_left_section');
-
-/*
- *
- */
-
-function fashe_single_product_right_section()
-{
-    global $product;
-    $result=array(
-        'price'=>$product->price,
-    );
-
-    wc_get_template('template-parts/single_product/single_product_right.php',$result);
-}
-
-add_action('fashe_single_product_right_section','fashe_single_product_right_section');
+add_action('fashe_woocommerce_display_product_attributes','fashe_woocommerce_display_product_attributes');
 
 
 /**
  * Trigger the single product add to cart action.
  */
-function fashe_template_single_add_to_cart() {
+function fashe_woocommerce_template_single_add_to_cart() {
     global $product;
-    do_action( 'fashe_' . $product->get_type() . '_add_to_cart' );
+    do_action( 'fashe_woocommerce_' . $product->get_type() . '_add_to_cart' );
 }
 
 /**
  * Output the simple product add to cart area.
  */
-function fashe_simple_add_to_cart() {
-    wc_get_template( 'template-parts/single_product/add-to-cart/variable.php' );
+function fashe_woocommerce_simple_add_to_cart() {
+    wc_get_template( 'template-parts/single_product/add-to-cart/simple.php' );
 }
 
 /**
  * Output the grouped product add to cart area.
  */
-function fashe_grouped_add_to_cart() {
+function fashe_woocommerce_grouped_add_to_cart() {
     global $product;
 
     $products = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
@@ -350,7 +314,7 @@ function fashe_grouped_add_to_cart() {
 /**
  * Output the variable product add to cart area.
  */
-function fashe_variable_add_to_cart() {
+function fashe_woocommerce_variable_add_to_cart() {
     global $product;
 
     // Enqueue variation scripts.
@@ -370,7 +334,7 @@ function fashe_variable_add_to_cart() {
 /**
  * Output the external product add to cart area.
  */
-function fashe_external_add_to_cart() {
+function fashe_woocommerce_external_add_to_cart() {
     global $product;
 
     if ( ! $product->add_to_cart_url() ) {
@@ -393,12 +357,11 @@ function fashe_external_add_to_cart() {
 
 
 /**
- * Output the add to cart button for variations.
+ * Output a list of variation attributes for use in the cart forms.
+ *
+ * @param array $args Arguments.
+ * @since 2.4.0
  */
-function fashe_single_variation_add_to_cart_button() {
-    wc_get_template( 'template-parts/single_product/add-to-cart/variation-add-to-cart-button.php' );
-}
-
 function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
     $args = wp_parse_args( apply_filters( 'woocommerce_dropdown_variation_attribute_options_args', $args ), array(
         'options'          => false,
@@ -407,7 +370,7 @@ function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
         'selected'         => false,
         'name'             => '',
         'id'               => '',
-        'class'            => '',
+        'class'            => 'selection-2 select2-hidden-accessible',
         'show_option_none' => __( 'Choose an option', 'woocommerce' ),
     ) );
 
@@ -431,7 +394,7 @@ function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
         $options    = $attributes[ $attribute ];
     }
 
-    $html  = '<select id="' . esc_attr( $id ) . '" class="selection-2 select2-hidden-accessible" name="' . esc_attr( $name ) . '" data-attribute_name="attribute_' . esc_attr( sanitize_title( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '" tabindex="-1" aria-hidden="true">';
+    $html  = '<select id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '" data-attribute_name="attribute_' . esc_attr( sanitize_title( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '">';
     $html .= '<option value="">' . esc_html( $show_option_none_text ) . '</option>';
 
     if ( ! empty( $options ) ) {
@@ -460,23 +423,58 @@ function fashe_wc_dropdown_variation_attribute_options( $args = array() ) {
     echo apply_filters( 'woocommerce_dropdown_variation_attribute_options_html', $html, $args ); // WPCS: XSS ok.
 }
 
+/**
+ * Get HTML for a gallery image.
+ *
+ * Woocommerce_gallery_thumbnail_size, woocommerce_gallery_image_size and woocommerce_gallery_full_size accept name based image sizes, or an array of width/height values.
+ *
+ * @since 3.3.2
+ * @param int  $attachment_id Attachment ID.
+ * @param bool $main_image Is this the main image or a thumbnail?.
+ * @return string
+ */
+function fashe_wc_get_gallery_image_html( $attachment_id, $main_image = false ) {
+    $flexslider        = (bool) apply_filters( 'woocommerce_single_product_flexslider_enabled', get_theme_support( 'wc-product-gallery-slider' ) );
+    $gallery_thumbnail = wc_get_image_size( 'fashe-single-product-thumbnail' );
+    $thumbnail_size    = apply_filters( 'woocommerce_gallery_thumbnail_size', array( $gallery_thumbnail['width'], $gallery_thumbnail['height'] ) );
+    $image_size        = apply_filters( 'woocommerce_gallery_image_size', $flexslider || $main_image ? 'woocommerce_single' : $thumbnail_size );
+    $full_size         = apply_filters( 'woocommerce_gallery_full_size', apply_filters( 'woocommerce_product_thumbnails_large_size', 'full' ) );
+    $thumbnail_src     = wp_get_attachment_image_src( $attachment_id, $thumbnail_size );
+    $full_src          = wp_get_attachment_image_src( $attachment_id, $full_size );
+    $image             = wp_get_attachment_image( $attachment_id, $image_size, false, array(
+//        'title'                   => get_post_field( 'post_title', $attachment_id ),
+//        'data-caption'            => get_post_field( 'post_excerpt', $attachment_id ),
+//        'data-src'                => $full_src[0],
+//        'data-large_image'        => $full_src[0],
+//        'data-large_image_width'  => $full_src[1],
+//        'data-large_image_height' => $full_src[2],
+        'class'                   => $main_image ? 'wp-post-image' : '',
+    ) );
 
-
+    return '<div data-thumb="' . esc_url( $thumbnail_src[0] ) . '" class="item-slick3 woocommerce-product-gallery__image"><div class="wrap-pic-w">' . $image . '</div></div>';
+}
 
     /**
      * Output the product image before the single product summary.
      */
-    function fashe_show_product_images() {
+    function fashe_woocommerce_show_product_images() {
         wc_get_template( 'template-parts/single_product/image/product-image.php' );
     }
 
-    add_action('fashe_show_product_images','fashe_show_product_images');
+    add_action('fashe_woocommerce_show_product_images','fashe_woocommerce_show_product_images');
 
     /**
      * Output the product thumbnails.
      */
-    function fashe_show_product_thumbnails() {
+    function fashe_woocommerce_show_product_thumbnails() {
         wc_get_template( 'template-parts/single_product/image/product-thumbnails.php' );
     }
 
-    add_action('fashe_show_product_thumbnails','fashe_show_product_images');
+    add_action('fashe_woocommerce_show_product_thumbnails','fashe_woocommerce_show_product_thumbnails');
+
+    /**
+* Output the add to cart button for variations.
+     */
+    function fashe_woocommerce_single_variation_add_to_cart_button() {
+        wc_get_template( 'template-parts/single_product/add-to-cart/variation-add-to-cart-button.php' );
+    }

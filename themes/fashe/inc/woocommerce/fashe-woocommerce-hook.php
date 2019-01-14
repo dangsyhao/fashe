@@ -29,10 +29,10 @@ add_shortcode('fashe_woocommerce_short_code_shop','fashe_woocommerce_short_code_
 * @see woocommerce_single_variation_add_to_cart_button()
 */
 
-add_action( 'fashe_single_product_summary', 'fashe_template_single_add_to_cart');
-add_action( 'fashe_simple_add_to_cart', 'fashe_simple_add_to_cart');
-add_action( 'fashe_grouped_add_to_cart', 'fashe_grouped_add_to_cart');
-add_action( 'fashe_variable_add_to_cart', 'fashe_variable_add_to_cart');
-add_action( 'fashe_external_add_to_cart', 'fashe_external_add_to_cart' );
-//add_action( 'fashe_single_variation', 'fashe_single_variation');
-add_action( 'fashe_single_variation', 'fashe_single_variation_add_to_cart_button');
+add_action( 'fashe_woocommerce_template_single_add_to_cart', 'fashe_woocommerce_template_single_add_to_cart');
+add_action( 'fashe_woocommerce_simple_add_to_cart', 'fashe_woocommerce_simple_add_to_cart');
+add_action( 'fashe_woocommerce_grouped_add_to_cart', 'fashe_woocommerce_grouped_add_to_cart');
+add_action( 'fashe_woocommerce_variable_add_to_cart', 'fashe_woocommerce_variable_add_to_cart');
+add_action( 'fashe_woocommerce_external_add_to_cart', 'fashe_woocommerce_external_add_to_cart' );
+//add_action( 'fashe_woocommerce_single_variation', 'fashe_woocommerce_single_variation');
+add_action( 'fashe_woocommerce_single_variation_add_to_cart_button', 'fashe_woocommerce_single_variation_add_to_cart_button');

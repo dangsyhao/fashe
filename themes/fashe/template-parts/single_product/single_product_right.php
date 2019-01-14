@@ -13,10 +13,10 @@
     <!--  -->
     <div class="p-t-33 p-b-60">
 
-        <?php do_action('fashe_single_product_summary')?>
+        <?php do_action('fashe_woocommerce_template_single_add_to_cart')?>
 
     </div>
-        <?php do_action('fashe_meta_single_product')?>
+        <?php do_action('fashe_woocommerce_meta_single_product')?>
 
     <!--  -->
     <div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
@@ -42,7 +42,7 @@
 
         <div class="dropdown-content dis-none p-t-15 p-b-23">
             <p class="s-text8">
-                <?php do_action( 'fashe_display_product_attributes', $product ); ?>
+                <?php do_action( 'fashe_woocommerce_display_product_attributes', $product ); ?>
             </p>
         </div>
     </div>
