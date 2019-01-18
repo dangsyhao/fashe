@@ -20,15 +20,20 @@ $wrapper_classes   = apply_filters( 'woocommerce_single_product_image_gallery_cl
     'images',
 ) );
 ?>
-<div class="wrap-slick3-dots"></div>
 
-<div class="slick3 <?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
-        <?php
+<div class="w-size13 p-t-30 respon5">
+    <div class="wrap-slick3 flex-sb flex-w">
+        <div class="wrap-slick3-dots"></div>
 
-        foreach (array_reverse($attachment_ids) as $attachment_id){
-            $html = fashe_wc_get_gallery_image_html( $attachment_id, true );
-            echo $html;
-        }
+        <div class="slick3 <?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
+                <?php
 
-        ?>
+                foreach (array_reverse($attachment_ids) as $attachment_id){
+                    $html = fashe_wc_get_gallery_image_html( $attachment_id, true );
+                    echo $html;
+                }
+
+                ?>
+        </div>
+    </div>
 </div>

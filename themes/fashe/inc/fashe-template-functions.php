@@ -7,7 +7,7 @@ function fashe_product_loop_shop(){
 <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
     <div class="block2">
         <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-            <img src="<?= get_the_post_thumbnail_url($product->term_ID)?>" alt="IMG-PRODUCT" height="360">
+            <?= woocommerce_get_product_thumbnail();?>
             <div class="block2-overlay trans-0-4">
                 <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4" tabindex="0">
                     <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
@@ -222,3 +222,4 @@ function fashe_single_product_right_section()
 }
 
 add_action('fashe_single_product_right_section','fashe_single_product_right_section');
+

@@ -36,3 +36,9 @@ add_action( 'fashe_woocommerce_variable_add_to_cart', 'fashe_woocommerce_variabl
 add_action( 'fashe_woocommerce_external_add_to_cart', 'fashe_woocommerce_external_add_to_cart' );
 //add_action( 'fashe_woocommerce_single_variation', 'fashe_woocommerce_single_variation');
 add_action( 'fashe_woocommerce_single_variation_add_to_cart_button', 'fashe_woocommerce_single_variation_add_to_cart_button');
+
+//
+add_action('fashe_woocommerce_review_display_comment_text','fashe_woocommerce_review_display_comment_text');
+
+
+

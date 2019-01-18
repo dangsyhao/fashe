@@ -16,3 +16,6 @@ add_action('fashe_woocommerce_pagination_shop','fashe_woocommerce_pagination_sho
 add_action('fashe_woocommerce_pagination','fashe_woocommerce_pagination');
 //
 add_action('fashe_woocommerce_orderby','fashe_woocommerce_orderby');
+
+//
+add_action('fashe_get_price_html','fashe_get_price_html');

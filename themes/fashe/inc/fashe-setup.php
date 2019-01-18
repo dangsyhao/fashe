@@ -20,7 +20,7 @@ function fashe_setup() {
      *
      * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
      */
-    //add_theme_support( 'post-thumbnails' );
+    add_theme_support( 'post-thumbnails' );
     //
     add_image_size( 'fashe-thumbnail-avatar', 100, 100, true );
     //
@@ -38,9 +38,9 @@ function fashe_setup() {
     //
     add_image_size( 'fashe-product-cart-thumbnail',90,120,true );
     //
-    add_image_size( 'fashe-single-product-thumbnail',501,668,false );
-
-
+    add_image_size( 'fashe-single-product-thumbnails',90,120,false );
+    //
+    //add_image_size( 'fashe-single-product-image',501,668,false );
 
 
     // This theme uses wp_nav_menu() in two locations.
