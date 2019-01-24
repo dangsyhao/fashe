@@ -40,7 +40,7 @@ function fashe_setup() {
     //
     add_image_size( 'fashe-single-product-thumbnails',90,120,false );
     //
-    //add_image_size( 'fashe-single-product-image',501,668,false );
+    add_image_size( 'fashe-mini-cart-thumbnails',80,80,true );
 
 
     // This theme uses wp_nav_menu() in two locations.

@@ -71,14 +71,26 @@
 <!--===============================================================================================-->
 
 <script type="text/javascript">
+
     $('.block2-btn-addcart').each(function(){
+
+        var nameCart = $(this).find('.add_to_cart_button').html();
+
         var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+
         $(this).on('click', function(){
-            swal(nameProduct, "is added to cart !", "success");
+
+            $("a.add_to_cart_button ").addClass("added_to_cart");
+
+            if(nameCart ==='Add to cart') {
+                swal(nameProduct, "is added to cart !", "success");
+            }
+
         });
+
     });
 
-    $('.block2-btn-addwishlist').each(function(){
+        $('.block2-btn-addwishlist').each(function(){
         var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
         $(this).on('click', function(){
             swal(nameProduct, "is added to wishlist !", "success");
@@ -113,11 +125,10 @@
 	</script>
 
 <!--===============================================================================================-->
-
 <script src="<?= ASSETS_PATH;?>js/main.js"></script>
 <!--===============================================================================================-->
+<!--Jquery footer-->
 <?php wp_footer();?>
-
 
 </body>
 </html>

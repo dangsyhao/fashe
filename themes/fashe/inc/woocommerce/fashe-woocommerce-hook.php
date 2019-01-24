@@ -34,11 +34,20 @@ add_action( 'fashe_woocommerce_simple_add_to_cart', 'fashe_woocommerce_simple_ad
 add_action( 'fashe_woocommerce_grouped_add_to_cart', 'fashe_woocommerce_grouped_add_to_cart');
 add_action( 'fashe_woocommerce_variable_add_to_cart', 'fashe_woocommerce_variable_add_to_cart');
 add_action( 'fashe_woocommerce_external_add_to_cart', 'fashe_woocommerce_external_add_to_cart' );
-//add_action( 'fashe_woocommerce_single_variation', 'fashe_woocommerce_single_variation');
+add_action( 'fashe_woocommerce_single_variation_add_to_cart_button', 'fashe_woocommerce_single_variation');
 add_action( 'fashe_woocommerce_single_variation_add_to_cart_button', 'fashe_woocommerce_single_variation_add_to_cart_button');
 
 //
 add_action('fashe_woocommerce_review_display_comment_text','fashe_woocommerce_review_display_comment_text');
 
 
-
+/**
+ * Cart fragment
+ *
+ * @see storefront_cart_link_fragment()
+ */
+if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.3', '>=' ) ) {
+    add_filter( 'woocommerce_add_to_cart_fragments', 'fashe_cart_link_fragment' );
+} else {
+    add_filter( 'add_to_cart_fragments', 'fashe_cart_link_fragment' );
+}

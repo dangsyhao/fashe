@@ -269,6 +269,7 @@ add_action('fashe_woocommerce_meta_single_product','fashe_woocommerce_meta_singl
 
 
 function fashe_woocommerce_display_product_attributes( $product ) {
+
     wc_get_template( 'template-parts/single_product/_product-attributes.php', array(
         'product'            => $product,
         'attributes'         => array_filter( $product->get_attributes(), 'wc_attributes_array_filter_visible' ),
@@ -284,7 +285,6 @@ add_action('fashe_woocommerce_display_product_attributes','fashe_woocommerce_dis
  */
 function fashe_woocommerce_template_single_add_to_cart() {
     global $product;
-
     do_action( 'fashe_woocommerce_' . $product->get_type() . '_add_to_cart' );
 
 }
@@ -353,10 +353,9 @@ function fashe_woocommerce_external_add_to_cart() {
  * Output placeholders for the single variation.
  */
 
-//function fashe_single_variation() {
-//    echo '<div class="woocommerce-variation single_variation"></div>';
-//}
-
+function fashe_woocommerce_single_variation() {
+    echo '<div class="woocommerce-variation single_variation"></div>';
+}
 
 /**
  * Output a list of variation attributes for use in the cart forms.
@@ -493,4 +492,34 @@ function fashe_wc_get_gallery_image_html( $attachment_id, $main_image = false ) 
     }
 
 
+/**
+ * Cart Fragments
+ * Ensure cart contents update when products are added to the cart via AJAX
+ *
+ * @param  array $fragments Fragments to refresh via AJAX.
+ * @return array            Fragments to refresh via AJAX
+ */
+function fashe_cart_link_fragment( $fragments ) {
+    global $woocommerce;
 
+    ob_start();
+    fashe_cart_link();
+    $fragments['span.header-icons-noti'] = ob_get_clean();
+    return $fragments;
+}
+
+/**
+ * Cart Link
+ * Displayed a link to the cart including the number of items present and the cart total
+ *
+ * @return void
+ * @since  1.0.0
+ */
+
+function fashe_cart_link() {
+    ?>
+         <span class="header-icons-noti">
+             <?php echo wp_kses_data( sprintf( _n( '%d', '%d', WC()->cart->get_cart_contents_count(), 'storefront' ), WC()->cart->get_cart_contents_count() ) ); ?>
+         </span>
+    <?php
+}

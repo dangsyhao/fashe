@@ -36,27 +36,28 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                         <div for="<?php echo esc_attr( sanitize_title( $attribute_name ) ); ?>" class="s-text15 w-size15 t-center">
                             <?php echo wc_attribute_label( $attribute_name ); // WPCS: XSS ok. ?>
                         </div>
-                    <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
-                        <?php
-                            fashe_wc_dropdown_variation_attribute_options( array(
-                                'options'   => $options,
-                                'attribute' => $attribute_name,
-                                'product'   => $product,
-                            ) );
-                            //echo end( $attribute_keys ) === $attribute_name ? wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . esc_html__( 'Clear', 'woocommerce' ) . '</a>' ) ) : '';
-                        ?>
-                    </div>
+                        <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+                            <?php
+                                fashe_wc_dropdown_variation_attribute_options( array(
+                                    'options'   => $options,
+                                    'attribute' => $attribute_name,
+                                    'product'   => $product,
+                                ) );
+                                //echo end( $attribute_keys ) === $attribute_name ? wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . esc_html__( 'Clear', 'woocommerce' ) . '</a>' ) ) : '';
+                            ?>
+                        </div>
 
                     </div>
 				<?php endforeach; ?>
 		</div>
 
-		<div class="flex-r-m flex-w p-t-10">
+		<div class="flex-r-m flex-w p-t-10 single_variation_wrap">
             <div class="w-size16 flex-m flex-w">
                 <?php
                     /**
                      * Hook: woocommerce_before_single_variation.
                      */
+
                     do_action( 'woocommerce_before_single_variation' );
 
                     /**

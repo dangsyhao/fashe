@@ -22,7 +22,36 @@ function fashe_wc_format_price_range( $from, $to ) {
  *
  */
 function fashe_wc_format_sale_price( $regular_price, $sale_price ) {
-    $price = '<del>' . ( is_numeric( $regular_price ) ? fashe_wc_price( $regular_price ) : $regular_price ) . '</del><span class="m-text17"> - </span>' . ( is_numeric( $sale_price ) ? fashe_wc_price( $sale_price ) : $sale_price );
+
+    global $product;
+    if($product->get_type() ==='variation'){
+
+        if(is_single()){
+
+            $price = '<del>'. ( is_numeric( $regular_price ) ? fashe_wc_price( $regular_price ) : $regular_price ) . '</del>'
+                .'&nbsp;'.( is_numeric( $sale_price ) ? fashe_wc_price( $sale_price ) : $sale_price );
+
+        }else{
+
+            $price = '<span class="block2-oldprice m-text7 p-r-5">' . ( is_numeric( $regular_price ) ? fashe_wc_price( $regular_price ) : $regular_price ) . '</span>'
+                .'<span class="block2-newprice m-text8 p-r-5">'. ( is_numeric( $sale_price ) ? fashe_wc_price( $sale_price ) : $sale_price ).'</span>';
+        }
+
+    }else{
+
+        if(is_single()){
+
+            $price = '<del><span class="m-text17">' . ( is_numeric( $regular_price ) ? fashe_wc_price( $regular_price ) : $regular_price ) . '</span></del>'
+                .'&nbsp;'.'<span class="m-text17">' . ( is_numeric( $sale_price ) ? fashe_wc_price( $sale_price ) : $sale_price ).'</span>';
+
+        }else{
+
+            $price = '<span class="block2-oldprice m-text7 p-r-5">' . ( is_numeric( $regular_price ) ? fashe_wc_price( $regular_price ) : $regular_price ) . '</span>'
+                .'<span class="block2-newprice m-text8 p-r-5">'. ( is_numeric( $sale_price ) ? fashe_wc_price( $sale_price ) : $sale_price ).'</span>';
+        }
+
+    }
+
     return apply_filters( 'woocommerce_format_sale_price', $price, $regular_price, $sale_price );
 }
 
@@ -31,6 +60,8 @@ function fashe_wc_format_sale_price( $regular_price, $sale_price ) {
  */
 
 function fashe_wc_price( $price, $args = array() ) {
+    global $product;
+
     $args = apply_filters(
         'wc_price_args', wp_parse_args(
             $args, array(
@@ -54,7 +85,29 @@ function fashe_wc_price( $price, $args = array() ) {
     }
 
     $formatted_price = ( $negative ? '-' : '' ) . sprintf( $args['price_format'], '<span class="woocommerce-Price-currencySymbol">' . get_woocommerce_currency_symbol( $args['currency'] ) . '</span>', $price );
-    $return          = '<span class="m-text17 woocommerce-Price-amount amount">' . $formatted_price . '</span>';
+
+    //Format template price by hao
+    if($product->get_type() ==='variable'){
+
+        if(is_single()){
+            $return          = '<span class="m-text17">'.$formatted_price.'</span>';
+        }else{
+            $return          = '<span class="block2-price m-text6 p-r-5">'.$formatted_price.'</span>';
+        }
+
+    }else{//Default:product type is simple
+
+        if($product->is_on_sale()){
+            $return          = $formatted_price;
+        }else{
+
+            if(is_single()){
+                $return          = '<span class="m-text17">'.$formatted_price.'</span>';
+            }else{
+                $return          = '<span class="block2-price m-text6 p-r-5">'.$formatted_price.'</span>';
+            }
+        }
+    }
 
     if ( $args['ex_tax_label'] && wc_tax_enabled() ) {
         $return .= ' <small class="woocommerce-Price-taxLabel tax_label">' . WC()->countries->ex_tax_or_vat() . '</small>';
@@ -65,7 +118,6 @@ function fashe_wc_price( $price, $args = array() ) {
      */
     return apply_filters( 'wc_price', $return, $price, $args, $unformatted_price );
 }
-
 
 /**
  * Get template Price Products.
@@ -89,7 +141,7 @@ function fashe_wc_price( $price, $args = array() ) {
             $min_reg_price = current( $prices['regular_price'] );
             $max_reg_price = end( $prices['regular_price'] );
 
-            if ( $min_price !== $max_price ) {
+            if ( $min_price !== $max_price) {
                 $price = fashe_wc_format_price_range( $min_price, $max_price );
             } elseif ( $product->is_on_sale() && $min_reg_price === $max_reg_price ) {
                 $price = fashe_wc_format_sale_price( fashe_wc_price( $max_reg_price ), fashe_wc_price( $min_price ) );

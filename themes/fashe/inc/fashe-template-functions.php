@@ -22,8 +22,9 @@ function fashe_product_loop_shop(){
             <a href="<?php the_permalink($product->term_ID)?>" class="block2-name dis-block s-text3 p-b-5" tabindex="0">
                 <?= get_the_title();?>
             </a>
-            <?= $product->regular_price ?'<span class="block2-oldprice m-text7 p-r-5">$'.$product->regular_price.'</span>':''; ?>
-            <?= $product->sale_price ?'<span class="block2-newprice m-text8 p-r-5">$'.$product->sale_price.'</span>':''; ?>
+
+            <?= fashe_get_price_html(); ?>
+
         </div>
     </div>
 </div>
@@ -60,8 +61,8 @@ function fashe_product_loop_home(){
                 <a href="<?php the_permalink($product->term_ID)?>" class="block2-name dis-block s-text3 p-b-5" tabindex="0">
                     <?= get_the_title();?>
                 </a>
-                <?= $product->regular_price ?'<span class="block2-oldprice m-text7 p-r-5">$'.$product->regular_price.'</span>':''; ?>
-                <?= $product->sale_price ?'<span class="block2-newprice m-text8 p-r-5">$'.$product->sale_price.'</span>':''; ?>
+                <?= fashe_get_price_html(); ?>
+
             </div>
 
         </div>
@@ -183,7 +184,8 @@ add_filter('fashe_news_posts','fashe_news_posts');
 
 function fashe_mini_cart_header(){
 
-    wc_get_template( 'woocommerce/cart/mini-cart.php');
+  the_widget( 'WC_Widget_Cart', 'title=' );
+
 }
 add_action('fashe_mini_cart_header','fashe_mini_cart_header');
 
@@ -214,11 +216,8 @@ add_action('fashe_single_product_left_section','fashe_single_product_left_sectio
 function fashe_single_product_right_section()
 {
     global $product;
-    $result=array(
-        'price'=>$product->price,
-    );
 
-    wc_get_template('template-parts/single_product/single_product_right.php',$result);
+    wc_get_template('template-parts/single_product/single_product_right.php');
 }
 
 add_action('fashe_single_product_right_section','fashe_single_product_right_section');
