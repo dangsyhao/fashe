@@ -15,11 +15,10 @@
  * @package 	WooCommerce/Templates
  * @version     3.5.0
  */
-echo "This is Single-product-reviews";
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+
 global $product;
 
 if ( ! comments_open() ) {

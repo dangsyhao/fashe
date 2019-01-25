@@ -13,7 +13,6 @@
  * @package WooCommerce/Templates
  * @version 3.5.2
  */
-echo "This is Content-widget-product";
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

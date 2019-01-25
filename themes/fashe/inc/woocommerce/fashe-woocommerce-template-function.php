@@ -80,7 +80,6 @@ function fashe_product_categories_loop_home( $atts ) {
     if ( $product_categories ) {
         woocommerce_product_loop_start();
 
-
         wc_get_template( 'content-product_cat.php', array(
             'category' => $product_categories,
         ) );
@@ -91,6 +90,32 @@ function fashe_product_categories_loop_home( $atts ) {
     woocommerce_reset_loop();
 
     return ob_get_clean();
+}
+
+/**
+ * List products in a category shortcode.
+ *
+ * @param array $atts Attributes.
+ * @return string
+ */
+function fashe_woocommerce_product_category( $atts ) {
+
+    if ( empty( $atts['category'] ) ) {
+       return '';
+    }
+
+    $atts = array_merge( array(
+        'per_page'     => 6,
+        'orderby'      => 'menu_order title',
+        'order'        => 'ASC',
+        'category'     => $atts['category'],
+        'cat_operator' => 'AND',
+        'paginate'     =>true
+    ), (array) $atts );
+
+    $shortcode = new fashe_product_shortcode_class( $atts, 'product_category' );
+
+    return $shortcode->fashe_get_content();
 }
 
 /**
@@ -140,6 +165,7 @@ function fashe_woocommerce_short_code_shop($atts) {
 
     $atts = shortcode_atts( array(
         'per_page'     => 6,
+        'cat_operator' => 'AND',
         'paginate'      =>true,
     ), $atts);
 
@@ -148,6 +174,9 @@ function fashe_woocommerce_short_code_shop($atts) {
     return $shortcode->fashe_get_content();
 }
 
+/*
+ *
+ */
 
 function fashe_woocommerce_pagination(){
 
@@ -174,7 +203,7 @@ function fashe_woocommerce_pagination(){
     <?php ob_start();?>
     <div class="pagination flex-m flex-w p-t-26">
         <?php for($i=1;$i<=$total;$i++):?>
-            <a href="<?= get_page_link().'?product-page='.$i;?>" class="item-pagination flex-c-m trans-0-4 <?= ($current==$i)?'active-pagination':'';?>"><?= $i;?></a>
+            <a href="<?= '?product-page='.$i;?>" class="item-pagination flex-c-m trans-0-4 <?= ($current==$i)?'active-pagination':'';?>"><?= $i;?></a>
         <?php endfor;?>
     </div>
 
@@ -246,7 +275,7 @@ function fashe_woocommerce_orderby(){
 
 function fashe_woocommerce_add_to_cart_single_product()
 {
-    wc_get_template('template-parts/single_product/add-to-cart/simple.php');
+    wc_get_template('single-product/add-to-cart/simple.php');
 }
 
 add_action('fashe_woocommerce_add_to_cart_single_product','fashe_woocommerce_add_to_cart_single_product');
@@ -258,7 +287,7 @@ add_action('fashe_woocommerce_add_to_cart_single_product','fashe_woocommerce_add
 
 function fashe_woocommerce_meta_single_product()
 {
-    wc_get_template('template-parts/single_product/_meta.php');
+    wc_get_template('single-product/_meta.php');
 }
 
 add_action('fashe_woocommerce_meta_single_product','fashe_woocommerce_meta_single_product');
@@ -270,7 +299,7 @@ add_action('fashe_woocommerce_meta_single_product','fashe_woocommerce_meta_singl
 
 function fashe_woocommerce_display_product_attributes( $product ) {
 
-    wc_get_template( 'template-parts/single_product/_product-attributes.php', array(
+    wc_get_template( 'single-product/_product-attributes.php', array(
         'product'            => $product,
         'attributes'         => array_filter( $product->get_attributes(), 'wc_attributes_array_filter_visible' ),
         'display_dimensions' => apply_filters( 'wc_product_enable_dimensions_display', $product->has_weight() || $product->has_dimensions() ),
@@ -293,7 +322,7 @@ function fashe_woocommerce_template_single_add_to_cart() {
  * Output the simple product add to cart area.
  */
 function fashe_woocommerce_simple_add_to_cart() {
-    wc_get_template( 'template-parts/single_product/add-to-cart/simple.php' );
+    wc_get_template( 'single-product/add-to-cart/simple.php' );
 }
 
 /**
@@ -305,7 +334,7 @@ function fashe_woocommerce_grouped_add_to_cart() {
     $products = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
 
     if ( $products ) {
-        wc_get_template( 'template-parts/single_product/add-to-cart/grouped.php', array(
+        wc_get_template( 'single-product/add-to-cart/grouped.php', array(
             'grouped_product'    => $product,
             'grouped_products'   => $products,
             'quantites_required' => false,
@@ -326,7 +355,7 @@ function fashe_woocommerce_variable_add_to_cart() {
     $get_variations = count( $product->get_children() ) <= apply_filters( 'woocommerce_ajax_variation_threshold', 30, $product );
 
     // Load the template.
-    wc_get_template( 'template-parts/single_product/add-to-cart/variable.php', array(
+    wc_get_template( 'single-product/add-to-cart/variable.php', array(
         'available_variations' => $get_variations ? $product->get_available_variations() : false,
         'attributes'           => $product->get_variation_attributes(),
         'selected_attributes'  => $product->get_default_attributes(),
@@ -343,7 +372,7 @@ function fashe_woocommerce_external_add_to_cart() {
         return;
     }
 
-    wc_get_template( 'template-parts/single_product/add-to-cart/external.php', array(
+    wc_get_template( 'single-product/add-to-cart/external.php', array(
         'product_url' => $product->add_to_cart_url(),
         'button_text' => $product->single_add_to_cart_text(),
     ) );
@@ -460,7 +489,7 @@ function fashe_wc_get_gallery_image_html( $attachment_id, $main_image = false ) 
      */
     function fashe_woocommerce_show_product_images() {
 
-        wc_get_template( 'template-parts/single_product/image/product-image.php' );
+        wc_get_template( 'single-product/image/product-image.php' );
 
     }
 
@@ -470,7 +499,7 @@ function fashe_wc_get_gallery_image_html( $attachment_id, $main_image = false ) 
      * Output the product thumbnails.
      */
     function fashe_woocommerce_show_product_thumbnails() {
-        wc_get_template( 'template-parts/single_product/image/product-thumbnails.php' );
+        wc_get_template( 'single-product/image/product-thumbnails.php' );
     }
 
     add_action('fashe_woocommerce_show_product_thumbnails','fashe_woocommerce_show_product_thumbnails');
@@ -479,7 +508,7 @@ function fashe_wc_get_gallery_image_html( $attachment_id, $main_image = false ) 
 * Output the add to cart button for variations.
      */
     function fashe_woocommerce_single_variation_add_to_cart_button() {
-        wc_get_template( 'template-parts/single_product/add-to-cart/variation-add-to-cart-button.php' );
+        wc_get_template( 'single-product/add-to-cart/variation-add-to-cart-button.php' );
     }
 
     /**

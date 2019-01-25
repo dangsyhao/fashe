@@ -18,7 +18,7 @@
 defined( 'ABSPATH' ) || exit;
 
 get_header( 'shop' );
-echo 'archive product !';
+
 /**
  * Hook: woocommerce_before_main_content.
  *

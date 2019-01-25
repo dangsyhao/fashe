@@ -695,7 +695,7 @@ class fashe_product_shortcode_class
                     add_action('woocommerce_product_is_visible', array($this, 'set_product_as_visible'));
 
                     // Render product template.
-                    wc_get_template_part('content', 'product');
+                    get_template_part('content', 'product');
 
                     // Restore product visibility.
                     remove_action('woocommerce_product_is_visible', array($this, 'set_product_as_visible'));
@@ -711,13 +711,12 @@ class fashe_product_shortcode_class
 
             do_action("woocommerce_shortcode_after_{$this->type}_loop", $this->attributes);
 
-
         } else {
             do_action("woocommerce_shortcode_{$this->type}_loop_no_results", $this->attributes);
         }
 
 
-        if(is_page('shop') || is_shop()){
+        if(is_page('shop') || is_shop() || is_archive()){
 
             do_action('fashe_woocommerce_orderby');
             
@@ -725,8 +724,7 @@ class fashe_product_shortcode_class
 
             do_action( 'fashe_woocommerce_pagination' );
             
-        }
-        else{
+        }else{
 
             echo $results;
 

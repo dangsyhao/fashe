@@ -14,13 +14,13 @@
 
                 <div class="w-size14 p-t-30 respon5">
                     <!-- Get Title -->
-                    <?php get_template_part('template-parts/single_product/blocs/title_single')?>
+                    <?php wc_get_template_part('single-product/blocs/title_single')?>
 
                     <!-- Get Price -->
                     <?= fashe_get_price_html()?>
 
                     <!-- Short-Desc -->
-                    <?php get_template_part('template-parts/single_product/blocs/short_desc_single')?>
+                    <?php wc_get_template_part('single-product/blocs/short_desc_single')?>
 
                     <!-- AddToCart -->
                     <?php do_action('fashe_woocommerce_template_single_add_to_cart')?>
@@ -28,13 +28,13 @@
                     <?php do_action('fashe_woocommerce_meta_single_product')?>
 
                     <!-- Description -->
-                    <?php get_template_part('template-parts/single_product/blocs/desc_single')?>
+                    <?php wc_get_template_part('single-product/blocs/desc_single')?>
 
                     <!-- Additional -->
-                    <?php get_template_part('template-parts/single_product/blocs/addit_single')?>
+                    <?php wc_get_template_part('single-product/blocs/addit_single')?>
 
                     <!-- Reviews -->
-                    <?php get_template_part('template-parts/single_product/blocs/reviews_single')?>
+                    <?php wc_get_template_part('single-product/blocs/reviews_single')?>
 
                 </div>
 

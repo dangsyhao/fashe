@@ -14,8 +14,6 @@ get_header();
 if(is_page('shop' )){
 
     //
-    remove_shortcode('[product]');
-    //
     get_template_part('template-parts/page/page/page-default');
 
 
